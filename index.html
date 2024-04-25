@@ -25,8 +25,9 @@
 
         document.body.style.textAlign = "left";
 
-        var text = "This game is meant to be played in a mobile device.</br>However, you can try playing on any device."
+        var text = ""
       }
+      else text = "This game is meant to be played in a mobile device.</br>However, you can try playing on any device."
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/ElCoetVolador.data",
