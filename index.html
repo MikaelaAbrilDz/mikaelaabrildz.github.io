@@ -6,11 +6,18 @@
     <title>ElCoetVolador</title>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <script>document.write(disclaimer)</script>
+    <script>
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
+      {
+        
+        }
+      else
+      {
+        document.write("<h3>This game is meant to be played in a mobile device.</br>However, you can try playing on any device.</h3></br>")
+        }
     <canvas id="unity-canvas" width=360 height=780 tabindex="-1" style="width: 360px; height: 780px; background: #232336"></canvas>
     <script src="Build/ElCoetVolador.loader.js"></script>
     <script>
-      var disclaimer
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
@@ -30,7 +37,7 @@
       }
       else 
       {
-        disclaimer = "<h3>This game is meant to be played in a mobile device.</br>However, you can try playing on any device.</h3></br>"
+        disclaimer = 
       }
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/ElCoetVolador.data",
