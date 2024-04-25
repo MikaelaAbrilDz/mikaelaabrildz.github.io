@@ -10,6 +10,7 @@
     <canvas id="unity-canvas" width=360 height=780 tabindex="-1" style="width: 360px; height: 780px; background: #232336"></canvas>
     <script src="Build/ElCoetVolador.loader.js"></script>
     <script>
+      var disclaimer
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
@@ -25,7 +26,7 @@
 
         document.body.style.textAlign = "left";
 
-        var disclaimer = ""
+        disclaimer = ""
       }
       else 
       {
