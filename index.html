@@ -27,8 +27,10 @@
 
         var disclaimer = ""
       }
-      else disclaimer = "This game is meant to be played in a mobile device.</br>However, you can try playing on any device."
-
+      else 
+      {
+        disclaimer = "This game is meant to be played in a mobile device.</br>However, you can try playing on any device."
+      }
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/ElCoetVolador.data",
         frameworkUrl: "Build/ElCoetVolador.framework.js",
