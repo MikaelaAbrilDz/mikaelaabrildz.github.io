@@ -6,7 +6,7 @@
     <title>Nuevas Miradas | Producto Interactivo</title>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 1920px; height: 1080px; background: #000000"></canvas>
+    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 1920px; height: 1080px; background: #FFFFFF"></canvas>
     <script src="BuildAlfarer/WebGL_Build.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -26,8 +26,8 @@
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "BuildAlfarer/WebGL_Build.data.br",
-        frameworkUrl: "BuildAlfarer/WebGL_Build.framework.js.br",
-        codeUrl: "BuildAlfarer/WebGL_Build.wasm.br",
+        frameworkUrl: "BuildAlfarer/WebGL_Build.framework.js",
+        codeUrl: "BuildAlfarer/WebGL_Build.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Mikaela Abril Diaz",
         productName: "Nuevas Miradas",
