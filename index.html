@@ -14,7 +14,7 @@
          background-repeat: no-repeat;
          background-size: cover;
             <script>
-            if (Phone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            if (window.innerHeight > window.innerWidth) {
                   background-image: url("/IndexImages/MikaBG_vert.png"); 
             }
             else {
