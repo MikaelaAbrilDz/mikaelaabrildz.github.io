@@ -10,11 +10,22 @@
          padding: 0;
          border: 0;
          margin: 0;
-          background-image: url('/IndexImages/MikaBG');
+         background-color: black;
+         background-repeat: no-repeat;
+         background-size: cover;
      } h1{color:white;}
  </style>
 </head>
 <body>
+    <script>
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          background-image: url("/IndexImages/MikaBG-vert.png");
+}
+else {
+          background-image: url("/IndexImages/MikaBG.png");
+
+}
+    </script>
 
 </body>
 </html>
