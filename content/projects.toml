@@ -1,0 +1,45 @@
+# Projects Configuration
+# Define your projects here with their display settings
+# Projects are organized into sections with titles
+
+[[section]]
+title = "MOBILE GAMES"
+order = 1
+
+[[project]]
+slug = "the-flying-rocket"
+title = "The Flying Rocket"
+description = "An arcade mobile game about infiltrating a mothership with innnovative controls based on forces."
+bg_color = "bg-gradient-to-b from-blue-900 to-green-400"
+thumbnail = "flying-rocket.jpg"
+display_type = ""
+section_order = 1
+project_order = 1
+
+[[section]]
+title = "PC GAMES"
+order = 2
+
+[[project]]
+slug = "ravioli-ravioli"
+title = "Ravioli, Ravioli"
+description = "A funny PC game about hitting clients in an italian restaurant."
+bg_color = "bg-gradient-to-b from-yellow-200 to-yellow-400"
+thumbnail = "ravioli-ravioli.png"
+display_type = "chef"
+section_order = 2
+project_order = 1
+
+[[section]]
+title = "OTHER GAMES"
+order = 3
+
+[[project]]
+slug = "the-wizards-tower"
+title = "The Wizard's Tower"
+description = "A simple 2D platformer for PC with a challenging mouse input twist."
+bg_color = "bg-gradient-to-b from-purple-900 to-purple-600"
+thumbnail = "wizards-tower.png"
+display_type = "wizard"
+section_order = 3
+project_order = 1
