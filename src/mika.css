@@ -61,12 +61,12 @@
 #play-button{
   display: block;
   background-color: #22d3ee;
-  font-color: #d1d5db;
+  color: #d1d5db;
   border-radius: 0.5rem;
   overflow: hidden;
   transition: all 0.3s;
   cursor: pointer;
-  position: center;
+  text-align: center;
 }
 #play-button:hover {
   transform: scale(1.05);
