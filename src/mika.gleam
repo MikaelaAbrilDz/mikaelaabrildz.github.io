@@ -269,7 +269,7 @@ fn project_card(
     [
       html.div([class("flex flex-col sm:grid sm:grid-cols-3 gap-0 sm:gap-4")], [
         // Left - Game preview with thumbnail
-        html.div([class("sm:col-span-1 h-48 sm:h-auto")], [
+        html.div([class("sm:col-span-1 h-20 sm:h-auto")], [
           html.div(
             [
               class(bg_color <> " h-full flex items-center justify-center"),
