@@ -175,7 +175,7 @@ html {
   background: #6b7280;
 }
 .play-button a{
-  width: fit-content !important; 
+  width: 100% !important; 
   display: block !important;
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
@@ -189,7 +189,7 @@ html {
   text-align: center !important;
   text-decoration: none !important;
 }
-#play-button a:hover {
+.play-button a:hover {
   transform: scale(1.05);
 }
 
