@@ -174,7 +174,7 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
-#play-button a{
+.play-button a{
   width: fit-content !important; 
   display: block !important;
   margin-top: 1.25rem !important;
