@@ -6,7 +6,7 @@
   <title>Redirecting...</title>
   <script>
     const path = window.location.pathname;
-    const redirectUrl = `${window.location.origin}${path.includes('/') ? path.substring(0, path.lastIndexOf('/') + 1) : '/'}?path=${path}`;
+    const redirectUrl = `${window.location.origin}/?path=${path}`;
     window.location.replace(redirectUrl);
   </script>
 </head>
