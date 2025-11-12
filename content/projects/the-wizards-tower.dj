@@ -1,29 +1,12 @@
 # The Wizard's Tower
 
-A simple 2D platformer for PC with a challenging mouse input twist.
+{#mobile-images}
+![Gif](/kiss.gif)
 
-## Concept
+- 2D platformer
+- Made in Unity.
 
-Navigate through a mystical tower using unconventional mouse-based controls. The wizard's tower is full of magical challenges and platforming puzzles.
 
-## Features
+## Play it!
 
-- Pixel art graphics with retro charm
-- Innovative control scheme using mouse movements
-- Challenging platforming mechanics
-- Progressive difficulty through tower levels
-
-## Gameplay Mechanics
-
-- Mouse-driven character movement
-- Physics-based jumping and climbing
-- Collectible magical artifacts
-- Hidden secrets in each level
-
-## Art Style
-
-Beautiful pixel art inspired by classic platformers with a magical twist. Each floor of the tower has its own unique theme and color palette.
-
-## Development Status
-
-Currently in beta testing. Expected release Q2 2025.
+A link to play will appear here soon.
