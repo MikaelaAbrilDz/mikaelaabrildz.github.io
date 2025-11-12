@@ -58,19 +58,19 @@
   display: flex;
   flex-direction: row;
 }
-a#play-button{
-  width: fit-content;
-  display: block;
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  background-color: #22d3ee;
-  color: #000000;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  transition: all 0.3s;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
+#play-button{
+  width: fit-content !important; 
+  display: block !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  background-color: #22d3ee !important;
+  color: #000000 !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+  transition: all 0.3s !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  text-decoration: none !important;
 }
 #play-button:hover {
   transform: scale(1.05);
