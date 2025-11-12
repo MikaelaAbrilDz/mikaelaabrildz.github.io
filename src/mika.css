@@ -59,14 +59,18 @@
   flex-direction: row;
 }
 #play-button{
+  width: fit-content;
   display: block;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
   background-color: #22d3ee;
-  color: #d1d5db;
+  color: #000000;
   border-radius: 0.5rem;
   overflow: hidden;
   transition: all 0.3s;
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
 }
 #play-button:hover {
   transform: scale(1.05);
