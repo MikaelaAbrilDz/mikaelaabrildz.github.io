@@ -2,6 +2,7 @@ import content
 import gleam/dict.{type Dict}
 import gleam/list
 import gleam/option
+import gleam/string
 import gleam/uri.{type Uri}
 import lustre
 import lustre/attribute.{alt, class, href, src}
@@ -42,8 +43,14 @@ fn on_route_change(uri: Uri) -> Msg {
 fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     OnRouteChange(uri) -> {
-      let route = parse_route(uri)
-      #(Model(..model, route: route), effect.none())
+      // Check if the path ends with .html and do a hard reload
+      case string.ends_with(uri.path, ".html") {
+        True -> #(model, modem.load(uri))
+        False -> {
+          let route = parse_route(uri)
+          #(Model(..model, route: route), effect.none())
+        }
+      }
     }
   }
 }
