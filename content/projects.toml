@@ -43,3 +43,23 @@ thumbnail = "wizards-tower.png"
 display_type = "wizard"
 section_order = 3
 project_order = 1
+
+[[project]]
+slug = "the-wizards-tower2"
+title = "The Wizard's Tower"
+description = "A simple 2D platformer for PC with a challenging mouse input twist."
+bg_color = "bg-gradient-to-b from-purple-900 to-purple-600"
+thumbnail = "wizards-tower.png"
+display_type = "wizard"
+section_order = 3
+project_order = 2
+
+[[project]]
+slug = "the-wizards-tower3"
+title = "The Wizard's Tower"
+description = "A simple 2D platformer for PC with a challenging mouse input twist."
+bg_color = "bg-gradient-to-b from-purple-900 to-purple-600"
+thumbnail = "wizards-tower.png"
+display_type = "wizard"
+section_order = 3
+project_order = 3
