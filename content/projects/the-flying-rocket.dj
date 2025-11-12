@@ -1,32 +1,14 @@
 # The Flying Rocket
 
 {#mobile-images}
-![Gif](/kiss.gif)
-![Gif](/kiss.gif)
-![Gif](/kiss.gif)
-![Gif](/kiss.gif)
+![Gif](/Gif_Rocket_0.gif)
 
-An arcade mobile game about infiltrating a mothership with innovative controls based on forces. Hola
-
-## Features
-
-- Physics-based controls that respond to real force inputs
-- Challenging gameplay with progressive difficulty
-- Mobile-optimized interface for touch controls
-- Beautiful space-themed graphics
-
-## Development
-
-Built using Unity and C# with a custom physics engine designed specifically for mobile devices.
-
-### Technical Details
-
-The game uses:
-- Custom force-based input system
-- Procedurally generated levels
-- Optimized rendering for mobile platforms
+- A twist on the classic spaceship arcade game, using force-based controls.
+- Designed to be a short experience with a steep learning curve for the controls.
+- Adapted for both touchscreen and keyboard (A and W).
+- Made in Unity.
 
 
-## Download
+## Play it!
 
-Available on iOS and Android platforms.
+A link to play will appear here soon.
