@@ -179,8 +179,9 @@ html {
   display: block !important;
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
+  padding: 1rem 2rem;
   background-color: #22d3ee !important;
-  color: #000000 !important;
+  color: #ffffff !important;
   border-radius: 0.5rem !important;
   overflow: hidden !important;
   transition: all 0.3s !important;
