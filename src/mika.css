@@ -58,6 +58,18 @@
   display: flex;
   flex-direction: row;
 }
+#play-button{
+  display: block;
+  background-color: #22d3ee;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: center;
+}
+#play-button:hover {
+  transform: scale(1.05);
+}
 
 .prose ul, .prose ol {
   margin-top: 1.25rem;
