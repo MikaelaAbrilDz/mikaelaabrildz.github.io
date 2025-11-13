@@ -18,7 +18,7 @@ lustre = ">= 5.3.5 and < 6.0.0"
 modem = ">= 2.1.2 and < 3.0.0"
 simplifile = ">= 2.3.0 and < 3.0.0"
 tom = ">= 2.0.0 and < 3.0.0"
-jot = ">= 7.1.1 and < 8.0.0"
+jot = { git = "https://github.com/renatillas/jot", ref = "main" }
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
