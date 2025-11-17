@@ -18,7 +18,7 @@ project_order = 1
 
 [[project]]
 slug = "mikas-box-drop"
-title = "Mika'x Box Drop"
+title = "Mika's Box Drop"
 description = "Simple mobile game about stacking boxes."
 bg_color = "bg-gradient-to-b from-blue-900 to-green-400"
 thumbnail = "mikas-box-drop.png"
