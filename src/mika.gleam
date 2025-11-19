@@ -185,7 +185,7 @@ fn profile_section() -> Element(Msg) {
       ]),
       html.p([class("text-gray-300 text-xs md:text-sm leading-relaxed")], [
         element.text(
-          "25 years old studying videogame design and with a passion for creating experiences and bring together technical and artistic skills.",
+          "25 years old studying videogame design with a passion for creating experiences and bring together technical and artistic skills.",
         ),
       ]),
       html.a(
