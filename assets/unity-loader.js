@@ -14,7 +14,7 @@ function loadUnityGame(canvasSelector, buildPath, config = {}) {
   overlay.id = "loading-overlay";
   overlay.innerHTML = `
     <div class="unity-spinner"></div>
-    <div class="unity-loading-text">Cargando... 0%</div>
+    <div class="unity-loading-text">Loading... 0%</div>
   `;
   document.body.prepend(overlay);
 
@@ -90,7 +90,7 @@ function loadUnityGame(canvasSelector, buildPath, config = {}) {
     canvas,
     unityConfig,
     (progress) => {
-      textEl.textContent = `Cargando... ${Math.round(progress * 100)}%`;
+      textEl.textContent = `Loading... ${Math.round(progress * 100)}%`;
     }
   )
     .then((unityInstance) => {
