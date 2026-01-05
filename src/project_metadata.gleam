@@ -35,6 +35,18 @@ pub fn get_all_projects() -> List(ProjectMetadata) {
       sidebar_image: None,
     ),
     ProjectMetadata(
+      slug: "mikas-box-drop",
+      title: "Mika's Box Drop",
+      description: "Simple mobile game about stacking boxes.",
+      bg_color: "bg-gradient-to-b from-blue-900 to-green-400",
+      thumbnail: "mikas-box-drop.png",
+      display_type: "",
+      section_order: 1,
+      project_order: 2,
+      show_in_sidebar: False,
+      sidebar_image: None,
+    ),
+    ProjectMetadata(
       slug: "ravioli-ravioli",
       title: "Ravioli, Ravioli",
       description: "A funny PC game about hitting clients in an italian restaurant.",

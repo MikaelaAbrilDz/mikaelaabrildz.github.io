@@ -1,7 +1,9 @@
+{.project-title style="view-transition-name: project-the-wizards-tower"}
 # The Wizard's Tower
 
-{#mobile-images}
-![Gif](/kiss.gif)
+::: carousel
+![Gameplay](/kiss.gif)
+:::
 
 - 2D platformer
 - Made in Unity.

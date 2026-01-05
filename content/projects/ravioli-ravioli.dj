@@ -1,7 +1,12 @@
+{.project-title style="view-transition-name: project-ravioli-ravioli"}
 # Ravioli, Ravioli
 
-{#mobile-images}
-![Gif](/kiss.gif)
+::: carousel
+![Gameplay](/kiss.gif)
+![Gameplay](/kiss.gif)
+![Gameplay](/kiss.gif)
+![Gameplay](/kiss.gif)
+:::
 
 - A funny PC game with an emphasis on comedy.
 - Management of clients and cooking actions.
