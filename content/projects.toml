@@ -15,7 +15,7 @@ thumbnail = "flying-rocket.jpg"
 display_type = ""
 section_order = 1
 project_order = 1
-roles = ["Game Design", "Programming", "Level Design"]
+roles = []
 build_path = "/Build-Rocket/Build/Build-Rocket"
 
 [[project]]
