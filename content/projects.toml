@@ -15,7 +15,7 @@ thumbnail = "flying-rocket.jpg"
 display_type = ""
 section_order = 1
 project_order = 1
-roles = []
+roles = ["Game Design", "Programming"]
 build_path = "/Build-Rocket/Build/Build-Rocket"
 
 [[project]]
@@ -27,7 +27,7 @@ thumbnail = "mikas-box-drop.png"
 display_type = ""
 section_order = 1
 project_order = 2
-roles = ["Game Design", "Programming", "Art"]
+roles = ["Game Design", "Programming", "2D Art", "Music"]
 
 [[section]]
 title = "PC GAMES"
@@ -42,7 +42,7 @@ thumbnail = "ravioli-ravioli.png"
 display_type = "chef"
 section_order = 2
 project_order = 1
-roles = ["Game Design", "Programming"]
+roles = ["Game Design", "Programming", "3D Modelling", "Rigging", "3D Animation"]
 
 [[section]]
 title = "OTHER GAMES"
@@ -57,4 +57,4 @@ thumbnail = "wizards-tower.png"
 display_type = "wizard"
 section_order = 3
 project_order = 1
-roles = ["Level Design"]
+roles = ["Game Design", "Level Design", "Programming"]
