@@ -23,12 +23,18 @@ jobs:
           otp-version: "28.0"
           gleam-version: "1.13.0"
           rebar3-version: "3"
-      - name: Install dependencies
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Gleam dependencies
         run: gleam deps download
-      - name: Run gleam dev
-        run: gleam dev
-      - name: Build app
-        run: gleam run -m lustre/dev build mika --minify --outdir=dist
+      - name: Install npm dependencies
+        run: npm install
+      - name: Build static site
+        run: gleam run
+      - name: Build CSS
+        run: npx @tailwindcss/cli -i src/mika.css -o dist/mika.css --minify
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

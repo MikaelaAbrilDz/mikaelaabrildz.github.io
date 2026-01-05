@@ -1,7 +1,9 @@
+{.project-title style="view-transition-name: project-the-flying-rocket"}
 # The Flying Rocket
 
-{#mobile-images}
-![Gif](/Gif_Rocket_0.gif)
+::: carousel
+![Gameplay](/Gif_Rocket_0.gif)
+:::
 
 - A twist on the classic spaceship arcade game, using force-based controls.
 - Designed to be a short experience with a steep learning curve for the controls.
