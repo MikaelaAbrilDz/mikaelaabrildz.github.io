@@ -1220,7 +1220,7 @@ fn profile_section() -> Element(Nil) {
         ]),
         // Name
         html.h1([class("text-2xl md:text-3xl font-bold mb-1")], [
-          element.text("Mikaela Abril"),
+          element.text("MikaelaAbril"),
           html.span([class("text-cyan-400")], [element.text("Dz")]),
         ]),
         // Role/Title
