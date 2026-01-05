@@ -5,30 +5,49 @@ import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/order
 import gleam/result
-import gleam/string
 import lustre/attribute.{alt, class, href, src}
 import lustre/element.{type Element}
 import lustre/element/html
 import lustre/ssg
 import lustre/ssg/djot
-import project_metadata.{type ProjectMetadata}
 import simplifile
 import tom
 
-pub fn main() {
-  // Step 1: Regenerate metadata module from TOML
-  io.println("Generating metadata...")
-  case generate_metadata_module() {
-    Ok(_) -> io.println("Metadata generated!")
-    Error(err) -> {
-      io.println("Error generating metadata: " <> err)
-      panic as "Failed to generate metadata"
-    }
-  }
+// ============================================================================
+// Types
+// ============================================================================
 
-  // Step 2: Build the static site
+pub type ProjectMetadata {
+  ProjectMetadata(
+    slug: String,
+    title: String,
+    description: String,
+    bg_color: String,
+    thumbnail: String,
+    thumbnail_sidebar: Option(String),
+    display_type: String,
+    section_order: Int,
+    project_order: Int,
+    show_in_sidebar: Bool,
+    sidebar_image: Option(String),
+    roles: List(String),
+    build_path: Option(String),
+  )
+}
+
+pub type Section {
+  Section(title: String, order: Int)
+}
+
+// ============================================================================
+// Main
+// ============================================================================
+
+pub fn main() {
   io.println("Building site...")
-  let all_projects = project_metadata.get_all_projects()
+
+  let assert Ok(all_projects) = get_all_projects()
+  let assert Ok(all_sections) = get_all_sections()
 
   let build =
     ssg.new("dist")
@@ -36,11 +55,14 @@ pub fn main() {
     |> ssg.use_index_routes
     |> ssg.add_static_route(
       "/",
-      page_layout("Mikaela's Portfolio", home_view()),
+      page_layout("Mikaela's Portfolio", home_view(all_projects, all_sections)),
     )
     |> ssg.add_static_route(
       "/work",
-      page_layout("Work - Mikaela's Portfolio", work_view(all_projects)),
+      page_layout(
+        "Work - Mikaela's Portfolio",
+        work_view(all_projects, all_sections),
+      ),
     )
     |> ssg.add_static_route(
       "/about",
@@ -59,49 +81,51 @@ pub fn main() {
 }
 
 // ============================================================================
-// Metadata Generation
+// TOML Parsing
 // ============================================================================
 
-type MetaProject {
-  MetaProject(
-    slug: String,
-    title: String,
-    description: String,
-    bg_color: String,
-    thumbnail: String,
-    thumbnail_sidebar: Option(String),
-    display_type: String,
-    section_order: Int,
-    project_order: Int,
-    show_in_sidebar: Bool,
-    sidebar_image: Option(String),
-    roles: List(String),
-    build_path: Option(String),
-  )
-}
-
-type Section {
-  Section(title: String, order: Int)
-}
-
-fn generate_metadata_module() -> Result(Nil, String) {
+fn read_toml() -> Result(Dict(String, tom.Toml), String) {
   use toml_content <- result.try(
     simplifile.read("content/projects.toml")
     |> result.map_error(fn(_) { "Failed to read content/projects.toml" }),
   )
 
-  use parsed <- result.try(
-    tom.parse(toml_content)
-    |> result.map_error(fn(_) { "Failed to parse TOML" }),
-  )
+  tom.parse(toml_content)
+  |> result.map_error(fn(_) { "Failed to parse TOML" })
+}
 
-  use sections <- result.try(parse_sections(parsed))
+pub fn get_all_projects() -> Result(List(ProjectMetadata), String) {
+  use parsed <- result.try(read_toml())
   use projects <- result.try(parse_projects(parsed))
 
-  let module_content = generate_metadata_gleam_module(sections, projects)
+  let sorted =
+    list.sort(projects, fn(a, b) {
+      case int.compare(a.section_order, b.section_order) {
+        order.Eq -> int.compare(a.project_order, b.project_order)
+        other -> other
+      }
+    })
 
-  simplifile.write("src/project_metadata.gleam", module_content)
-  |> result.map_error(fn(_) { "Failed to write src/project_metadata.gleam" })
+  Ok(sorted)
+}
+
+pub fn get_all_sections() -> Result(List(Section), String) {
+  use parsed <- result.try(read_toml())
+  use sections <- result.try(parse_sections(parsed))
+
+  let sorted = list.sort(sections, fn(a, b) { int.compare(a.order, b.order) })
+
+  Ok(sorted)
+}
+
+pub fn get_sidebar_project() -> Option(ProjectMetadata) {
+  case get_all_projects() {
+    Ok(projects) ->
+      projects
+      |> list.find(fn(p) { p.show_in_sidebar })
+      |> option.from_result
+    Error(_) -> None
+  }
 }
 
 fn parse_sections(toml: Dict(String, tom.Toml)) -> Result(List(Section), String) {
@@ -119,14 +143,16 @@ fn parse_section(table: Dict(String, tom.Toml)) -> Result(Section, String) {
 
 fn parse_projects(
   toml: Dict(String, tom.Toml),
-) -> Result(List(MetaProject), String) {
+) -> Result(List(ProjectMetadata), String) {
   case dict.get(toml, "project") {
     Ok(tom.ArrayOfTables(projects)) -> list.try_map(projects, parse_project)
     _ -> Error("No 'project' array of tables found in TOML")
   }
 }
 
-fn parse_project(table: Dict(String, tom.Toml)) -> Result(MetaProject, String) {
+fn parse_project(
+  table: Dict(String, tom.Toml),
+) -> Result(ProjectMetadata, String) {
   use slug <- result.try(get_toml_string(table, "slug"))
   use title <- result.try(get_toml_string(table, "title"))
   use description <- result.try(get_toml_string(table, "description"))
@@ -152,7 +178,7 @@ fn parse_project(table: Dict(String, tom.Toml)) -> Result(MetaProject, String) {
     |> result.map(Some)
     |> result.unwrap(None)
 
-  Ok(MetaProject(
+  Ok(ProjectMetadata(
     slug:,
     title:,
     description:,
@@ -216,145 +242,6 @@ fn get_toml_string_array(
   }
 }
 
-fn escape_string(s: String) -> String {
-  s
-  |> string.replace("\\", "\\\\")
-  |> string.replace("\"", "\\\"")
-  |> string.replace("\n", "\\n")
-  |> string.replace("\r", "\\r")
-  |> string.replace("\t", "\\t")
-}
-
-fn generate_metadata_gleam_module(
-  sections: List(Section),
-  projects: List(MetaProject),
-) -> String {
-  let imports =
-    "import gleam/list
-import gleam/option.{type Option, None, Some}
-
-"
-
-  let type_defs =
-    "pub type ProjectMetadata {
-  ProjectMetadata(
-    slug: String,
-    title: String,
-    description: String,
-    bg_color: String,
-    thumbnail: String,
-    thumbnail_sidebar: Option(String),
-    display_type: String,
-    section_order: Int,
-    project_order: Int,
-    show_in_sidebar: Bool,
-    sidebar_image: Option(String),
-    roles: List(String),
-    build_path: Option(String),
-  )
-}
-
-pub type Section {
-  Section(title: String, order: Int)
-}
-
-"
-
-  let sorted_sections =
-    list.sort(sections, fn(a, b) { int.compare(a.order, b.order) })
-  let sorted_projects =
-    list.sort(projects, fn(a, b) {
-      case int.compare(a.section_order, b.section_order) {
-        order.Eq -> int.compare(a.project_order, b.project_order)
-        other -> other
-      }
-    })
-
-  let function_start =
-    "pub fn get_all_projects() -> List(ProjectMetadata) {
-  [
-"
-
-  let entries =
-    sorted_projects
-    |> list.map(fn(p) {
-      let sidebar_img = case p.sidebar_image {
-        Some(img) -> "Some(\"" <> img <> "\")"
-        None -> "None"
-      }
-      let thumb_sidebar = case p.thumbnail_sidebar {
-        Some(img) -> "Some(\"" <> img <> "\")"
-        None -> "None"
-      }
-      let build_p = case p.build_path {
-        Some(path) -> "Some(\"" <> path <> "\")"
-        None -> "None"
-      }
-      let roles_str =
-        "["
-        <> {
-          p.roles
-          |> list.map(fn(r) { "\"" <> escape_string(r) <> "\"" })
-          |> string.join(", ")
-        }
-        <> "]"
-
-      "    ProjectMetadata(
-      slug: \"" <> p.slug <> "\",
-      title: \"" <> escape_string(p.title) <> "\",
-      description: \"" <> escape_string(p.description) <> "\",
-      bg_color: \"" <> p.bg_color <> "\",
-      thumbnail: \"" <> p.thumbnail <> "\",
-      thumbnail_sidebar: " <> thumb_sidebar <> ",
-      display_type: \"" <> p.display_type <> "\",
-      section_order: " <> int.to_string(p.section_order) <> ",
-      project_order: " <> int.to_string(p.project_order) <> ",
-      show_in_sidebar: " <> case p.show_in_sidebar {
-        True -> "True"
-        False -> "False"
-      } <> ",
-      sidebar_image: " <> sidebar_img <> ",
-      roles: " <> roles_str <> ",
-      build_path: " <> build_p <> ",
-    ),"
-    })
-    |> string.join("\n")
-
-  let sections_start =
-    "pub fn get_all_sections() -> List(Section) {
-  [
-"
-
-  let section_entries =
-    sorted_sections
-    |> list.map(fn(s) {
-      "    Section(title: \""
-      <> escape_string(s.title)
-      <> "\", order: "
-      <> int.to_string(s.order)
-      <> "),"
-    })
-    |> string.join("\n")
-
-  let function_end =
-    "
-  ]
-}
-
-pub fn get_sidebar_project() -> Option(ProjectMetadata) {
-  get_all_projects()
-  |> list.find(fn(p) { p.show_in_sidebar })
-  |> option.from_result
-}
-"
-
-  imports <> type_defs <> function_start <> entries <> "
-  ]
-}
-
-" <> sections_start <> section_entries <> function_end
-}
-
 // ============================================================================
 // Site Building
 // ============================================================================
@@ -401,8 +288,57 @@ fn page_layout(title: String, content: Element(Nil)) -> Element(Nil) {
       ]),
       html.link([attribute.rel("stylesheet"), href("/mika.css")]),
     ]),
-    html.body([], [content]),
+    html.body([], [content, carousel_init_script()]),
   ])
+}
+
+fn carousel_init_script() -> Element(Nil) {
+  html.script(
+    [],
+    "
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.carousel').forEach(function(carousel) {
+        var scrollContainer = carousel.querySelector('p');
+        if (!scrollContainer) return;
+
+        var images = scrollContainer.querySelectorAll('img');
+        if (images.length <= 1) return;
+
+        // Create prev button
+        var prevBtn = document.createElement('button');
+        prevBtn.className = 'carousel-nav carousel-nav-prev';
+        prevBtn.setAttribute('aria-label', 'Previous image');
+        prevBtn.innerHTML = '<svg viewBox=\"0 0 24 24\"><polyline points=\"15 18 9 12 15 6\"></polyline></svg>';
+
+        // Create next button
+        var nextBtn = document.createElement('button');
+        nextBtn.className = 'carousel-nav carousel-nav-next';
+        nextBtn.setAttribute('aria-label', 'Next image');
+        nextBtn.innerHTML = '<svg viewBox=\"0 0 24 24\"><polyline points=\"9 18 15 12 9 6\"></polyline></svg>';
+
+        carousel.appendChild(prevBtn);
+        carousel.appendChild(nextBtn);
+
+        // Create hint text
+        var hint = document.createElement('div');
+        hint.className = 'carousel-hint';
+        hint.textContent = 'Use arrows or scroll to see more';
+        carousel.appendChild(hint);
+
+        // Click handlers
+        prevBtn.addEventListener('click', function() {
+          var scrollAmount = scrollContainer.clientWidth;
+          scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', function() {
+          var scrollAmount = scrollContainer.clientWidth;
+          scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+      });
+    });
+  ",
+  )
 }
 
 // ============================================================================
@@ -528,7 +464,7 @@ fn header_view() -> Element(Nil) {
           html.a(
             [href("/"), class("text-xl font-semibold tracking-tight group")],
             [
-              element.text("Mikaela"),
+              element.text("MikaelaAbril"),
               html.span(
                 [
                   class(
@@ -553,7 +489,10 @@ fn header_view() -> Element(Nil) {
                   "inline-flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-gray-900 font-semibold text-sm rounded-lg transition-colors",
                 ),
               ],
-              [email_icon(), html.span([class("hidden sm:inline")], [element.text("Contact")])],
+              [
+                email_icon(),
+                html.span([class("hidden sm:inline")], [element.text("Contact")]),
+              ],
             ),
           ]),
         ],
@@ -589,13 +528,8 @@ fn footer_view() -> Element(Nil) {
           // Left: Brand & tagline
           html.div([class("space-y-4")], [
             html.a([href("/"), class("text-xl font-semibold")], [
-              element.text("Mikaela"),
+              element.text("MikaelaAbril"),
               html.span([class("text-cyan-400")], [element.text("Dz")]),
-            ]),
-            html.p([class("text-gray-400 text-sm max-w-xs")], [
-              element.text(
-                "Creating memorable gaming experiences through innovative design and technical craftsmanship.",
-              ),
             ]),
           ]),
           // Center: Quick links
@@ -715,10 +649,12 @@ fn social_icon_link(
   )
 }
 
-fn home_view() -> Element(Nil) {
-  let projects = project_metadata.get_all_projects()
-  let sections = project_metadata.get_all_sections()
-  let project_elements = build_projects_with_sections(projects, sections)
+fn home_view(
+  all_projects: List(ProjectMetadata),
+  all_sections: List(Section),
+) -> Element(Nil) {
+  let project_elements =
+    build_projects_with_sections(all_projects, all_sections)
 
   html.div([class("min-h-screen bg-gray-900 text-white")], [
     // Header
@@ -754,9 +690,12 @@ fn home_view() -> Element(Nil) {
 // Work Page
 // ============================================================================
 
-fn work_view(all_projects: List(ProjectMetadata)) -> Element(Nil) {
-  let sections = project_metadata.get_all_sections()
-  let project_elements = build_projects_with_sections(all_projects, sections)
+fn work_view(
+  all_projects: List(ProjectMetadata),
+  all_sections: List(Section),
+) -> Element(Nil) {
+  let project_elements =
+    build_projects_with_sections(all_projects, all_sections)
 
   html.div([class("min-h-screen bg-gray-900 text-white")], [
     header_view(),
@@ -810,7 +749,7 @@ fn about_view() -> Element(Nil) {
             ),
           ]),
           html.h1([class("text-4xl md:text-5xl font-bold text-white mb-2")], [
-            element.text("Mikaela Abril"),
+            element.text("MikaelaAbril"),
             html.span([class("text-cyan-400")], [element.text("Dz")]),
           ]),
           html.p([class("text-cyan-400/80 text-xl font-medium mb-6")], [
@@ -918,7 +857,7 @@ fn contact_button(
 
 fn build_projects_with_sections(
   projects: List(ProjectMetadata),
-  sections: List(project_metadata.Section),
+  sections: List(Section),
 ) -> List(Element(Nil)) {
   sections
   |> list.flat_map(fn(section) {
@@ -1009,8 +948,7 @@ fn project_view(
 fn build_prefetch_script(build_path: Option(String)) -> Element(Nil) {
   case build_path {
     option.None -> element.none()
-    option.Some(path) ->
-      html.script([], "
+    option.Some(path) -> html.script([], "
         // Prefetch Unity build files for faster loading
         (function() {
           var buildPath = '" <> path <> "';
@@ -1143,10 +1081,7 @@ fn roles_section(roles: List(String)) -> Element(Nil) {
           ],
           [element.text("My Role")],
         ),
-        html.div(
-          [class("flex flex-wrap gap-2")],
-          list.map(roles, role_tag),
-        ),
+        html.div([class("flex flex-wrap gap-2")], list.map(roles, role_tag)),
       ])
   }
 }
@@ -1334,7 +1269,7 @@ fn profile_section() -> Element(Nil) {
       ],
     ),
     // Featured project (if exists)
-    case project_metadata.get_sidebar_project() {
+    case get_sidebar_project() {
       option.Some(sidebar_project) ->
         html.div([], [
           html.a(
