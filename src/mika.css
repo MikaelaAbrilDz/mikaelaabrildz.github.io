@@ -1,8 +1,64 @@
 @import "tailwindcss";
 
+/* Google Font - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Apply font globally */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 /* Enable View Transitions for MPA navigation */
 @view-transition {
   navigation: auto;
+}
+
+/* ============================================================================
+   Animations
+   ============================================================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.35s; }
+
+/* Subtle hover glow for cards */
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px -5px rgba(34, 211, 238, 0.2);
+}
+
+/* Glass morphism utility */
+.glass-card {
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(75, 85, 99, 0.3);
 }
 
 /* Shared title style for view transitions */
@@ -69,9 +125,17 @@
    :::
    ============================================================================ */
 
+/* ============================================================================
+   Enhanced Carousel
+   ============================================================================ */
+
 .carousel {
   position: relative;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(75, 85, 99, 0.3);
 }
 
 /* The paragraph inside carousel becomes the scrolling container */
@@ -80,51 +144,50 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  gap: 0;
-  padding: 1rem 0;
-  padding-bottom: 1.5rem;
+  gap: 1rem;
+  padding: 0.5rem;
+  padding-bottom: 1rem;
   margin: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Styled scrollbar as navigation */
+/* Hide scrollbar for cleaner look */
 .carousel > p::-webkit-scrollbar {
-  height: 8px;
-}
-
-.carousel > p::-webkit-scrollbar-track {
-  background: #1f2937;
-  border-radius: 4px;
-}
-
-.carousel > p::-webkit-scrollbar-thumb {
-  background: #22d3ee;
-  border-radius: 4px;
-  cursor: grab;
-}
-
-.carousel > p::-webkit-scrollbar-thumb:hover {
-  background: #67e8f9;
-}
-
-.carousel > p::-webkit-scrollbar-thumb:active {
-  cursor: grabbing;
-}
-
-/* Firefox scrollbar */
-.carousel > p {
-  scrollbar-width: thin;
-  scrollbar-color: #22d3ee #1f2937;
+  display: none;
 }
 
 /* Each image is a carousel slide */
 .carousel img {
-  flex: 0 0 100%;
-  width: 100%;
+  flex: 0 0 calc(100% - 1rem);
+  width: calc(100% - 1rem);
   height: auto;
-  max-height: 70vh;
+  max-height: 65vh;
   object-fit: contain;
   scroll-snap-align: center;
   border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.carousel img:hover {
+  transform: scale(1.02);
+}
+
+/* Scroll indicator hint */
+.carousel::after {
+  content: 'Scroll to see more →';
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Hide hint on single image */
+.carousel > p > img:only-child + .carousel::after {
+  display: none;
 }
 
 /* Responsive adjustments */
@@ -249,23 +312,48 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
-.play-button a{
-  width: 100% !important; 
-  display: block !important;
-  margin-top: 1.25rem !important;
-  margin-bottom: 1.25rem !important;
-  padding: 1rem 2rem;
-  background-color: #22d3ee !important;
-  color: #ffffff !important;
-  border-radius: 0.5rem !important;
-  overflow: hidden !important;
-  transition: all 0.3s !important;
-  cursor: pointer !important;
-  text-align: center !important;
-  text-decoration: none !important;
+/* Modern gradient play button */
+.play-button {
+  margin: 2rem 0;
 }
+
+.play-button a {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #67e8f9 100%) !important;
+  color: #0f172a !important;
+  font-weight: 700;
+  font-size: 1.125rem;
+  border-radius: 0.75rem;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.play-button a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.play-button a:hover::before {
+  left: 100%;
+}
+
 .play-button a:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(6, 182, 212, 0.4);
 }
 
 /* Mobile responsiveness */
