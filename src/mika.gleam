@@ -984,26 +984,12 @@ fn breadcrumbs(project: ProjectMetadata) -> Element(Nil) {
       ]),
       html.li([class("text-gray-600")], [element.text("/")]),
       html.li([], [
-        html.span([class("text-gray-300")], [
-          element.text(section_name(project.section_order)),
-        ]),
-      ]),
-      html.li([class("text-gray-600")], [element.text("/")]),
-      html.li([], [
         html.span([class("text-cyan-400 font-medium")], [
           element.text(project.title),
         ]),
       ]),
     ]),
   ])
-}
-
-fn section_name(order: Int) -> String {
-  case order {
-    1 -> "Mobile Games"
-    2 -> "PC Games"
-    _ -> "Other Games"
-  }
 }
 
 fn project_sidebar(
@@ -1377,7 +1363,6 @@ fn project_card(
             class(
               "text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors",
             ),
-            attribute.style("view-transition-name", "project-" <> slug),
           ],
           [element.text(title)],
         ),
