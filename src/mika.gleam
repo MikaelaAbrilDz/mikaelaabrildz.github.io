@@ -319,12 +319,6 @@ fn carousel_init_script() -> Element(Nil) {
         carousel.appendChild(prevBtn);
         carousel.appendChild(nextBtn);
 
-        // Create hint text
-        var hint = document.createElement('div');
-        hint.className = 'carousel-hint';
-        hint.textContent = 'Use arrows or scroll to see more';
-        carousel.appendChild(hint);
-
         // Click handlers
         prevBtn.addEventListener('click', function() {
           var scrollAmount = scrollContainer.clientWidth;
@@ -953,16 +947,17 @@ fn build_prefetch_script(build_path: Option(String)) -> Element(Nil) {
         (function() {
           var buildPath = '" <> path <> "';
           var files = [
-            buildPath + '.loader.js',
-            buildPath + '.framework.js',
-            buildPath + '.data',
-            buildPath + '.wasm'
+            { url: buildPath + '.loader.js', as: 'script' },
+            { url: buildPath + '.framework.js', as: 'script' },
+            { url: buildPath + '.data', as: 'fetch', crossorigin: true },
+            { url: buildPath + '.wasm', as: 'fetch', crossorigin: true }
           ];
           files.forEach(function(file) {
             var link = document.createElement('link');
             link.rel = 'prefetch';
-            link.href = file;
-            link.as = file.endsWith('.js') ? 'script' : 'fetch';
+            link.href = file.url;
+            if (file.as) link.setAttribute('as', file.as);
+            if (file.crossorigin) link.setAttribute('crossorigin', 'anonymous');
             document.head.appendChild(link);
           });
         })();
