@@ -16,31 +16,31 @@
 {.play-button}
 [PLAY](/Build-Rocket/index.html)
 
-## About the design
+# About the design
 
-### Goal and design choices
+## Goal and design choices
 
-#### Main goal
+### Main goal
 
 The main goal with The Flying Rocket is to create a short experience with a start and an end, subverting the classic infinite spaceship videogame.
 
 To do this without making a lot of content but allowing for some time of gameplay, the controls are force-based and a bit hard to use, making the mastering of the controls part of the experience.
 
-#### Energy
+### Energy
 
 On top of this, every input you make uses energy and without energy, there's no movement, therefore making mandatory to catch the energy items while avoiding the asteroids.
 
-#### Dificulty balancing
+### Dificulty balancing
 
 Due to these design choices, the game can be a bit hard, so to balance it out, the asteroids don't kill you but reduce your energy quite quickly, allowing for some error margin.
 
-#### Satisfactory ending
+### Satisfactory ending
 
 Finally, to wrap the game up, at the end of the level, there's a boss you need to fight. This boss is a mothership that throws crabs at you and after avoiding them, you can go inside the spaceship, finishing the game.
 
-### Problems and solutions
+## Problems and solutions
 
-#### Easy to understand inputs
+### Easy to understand inputs
 
 To make the game casual and easy, an important part of the concept of the game needed to be transmited easily, which was not easy due to some mechanics being not super standard.
 
@@ -48,7 +48,7 @@ Firstly, we needed to make obvius the direction you were gonna be sended when pr
 
 Thanks to this, it is easy to notice what each button is gonna do, even if at first it's hard to use them efficiently, but being hard to master is part of the game's design.
 
-#### Making the player catch the energy
+### Making the player catch the energy
 
 Making obvious that you must hit the energy items was a huge deal, since a lot of people seemed to avoid them as if they were another kind of obstacle.
 
