@@ -1330,7 +1330,7 @@ fn project_card(
     [
       href("/project/" <> slug),
       class(
-        "group block relative overflow-hidden rounded-xl aspect-[16/10] hover-glow",
+        "group block relative rounded-xl aspect-[16/10] hover-glow",
       ),
     ],
     [
