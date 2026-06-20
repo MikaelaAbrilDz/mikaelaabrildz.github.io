@@ -1364,7 +1364,7 @@ fn project_card(
         html.p(
           [
             class(
-              "text-gray-300 text-sm md:text-base grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-grid-rows duration-300",
+              "text-gray-300 text-sm md:text-base opacity-0 line-clamp-1 group-hover:opacity-100 group-hover:line-clamp-4",
             ),
           ],
           [element.text(description)],
