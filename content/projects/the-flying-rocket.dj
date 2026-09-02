@@ -36,6 +36,8 @@ On top of this, every input you make uses energy and without energy, there's no 
 
 Due to these design choices, the game can be a bit hard, so to balance it out, the asteroids don't kill you but reduce your energy quite quickly, allowing for some error margin.
 
+![Gameplay](/Gif_Rocket_Damage.gif)
+
 ### Satisfactory ending
 
 Finally, to wrap the game up, at the end of the level, there's a boss you need to fight. This boss is a mothership that throws crabs at you and after avoiding them, you can go inside the spaceship, finishing the game.
