@@ -42,6 +42,8 @@ Due to these design choices, the game can be a bit hard, so to balance it out, t
 
 Finally, to wrap the game up, at the end of the level, there's a boss you need to fight. This boss is a mothership that throws crabs at you and after avoiding them, you can go inside the spaceship, finishing the game.
 
+![Gameplay](/Gif_Rocket_Boss.gif)
+
 ## Problems and solutions
 
 ### Easy to understand inputs
